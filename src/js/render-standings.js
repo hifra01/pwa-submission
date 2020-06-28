@@ -1,5 +1,6 @@
-import 'materialize-css/dist/css/materialize.min.css';
+// import 'materialize-css/dist/css/materialize.min.css';
 import MyAPI from "./my-api";
+import renderTeamDetail from "./render-detail-tim";
 
 function renderStandings() {
     const stAPI = new MyAPI();
@@ -44,15 +45,16 @@ function renderStandings() {
     function teamDetailLoadPage(page) {
         const xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
-            if (this.readyState == 4) {
+            if (this.readyState === 4) {
                 const content = document.querySelector("#body-content");
 
                 let teamID = window.location.hash.substr(1).split("?")[1].split("=")[1];
 
+                renderTeamDetail(teamID)
 
-                if (this.status == 200) {
+                if (this.status === 200) {
                     content.innerHTML = xhttp.responseText;
-                } else if (this.status == 404) {
+                } else if (this.status === 404) {
                     content.innerHTML = "<p>Mau ke mana bos? Nyasar bos? Halamannya nggak ada nih.</p>";
                 } else {
                     content.innerHTML = "<p>Hayo mau ngapain? Halaman ini tidak dapat diakses ya...</p>";

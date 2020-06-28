@@ -41,6 +41,7 @@ class MyAPI{
                 return Promise.reject(error);
             })
     }
+
 }
 
 export default MyAPI;

@@ -1,6 +1,7 @@
-import 'materialize-css';
-import 'materialize-css/dist/css/materialize.min.css';
+// // import 'materialize-css';
+// // import 'materialize-css/dist/css/materialize.min.css';
 import renderStandings from "./render-standings.js";
+import renderTeamDetail from "./render-detail-tim";
 
 function initNav(){
     let elems = document.querySelectorAll(".sidenav");
@@ -32,7 +33,7 @@ function initNav(){
         xhttp.send();
     }
 
-    let page = window.location.hash.substr(1)
+    let page = window.location.hash.substr(1).split("?")[0]
     if (page === "") page = "home";
     loadPage(page);
 
@@ -44,11 +45,14 @@ function initNav(){
 
                 if (page === "home"){
                     renderStandings();
+                }else if (page === "detail-tim"){
+                    let teamID = window.location.hash.substr(1).split("?")[1].split("=")[1];
+                    renderTeamDetail(teamID);
                 }
 
-                if (this.status == 200) {
+                if (this.status === 200) {
                     content.innerHTML = xhttp.responseText;
-                } else if (this.status == 404) {
+                } else if (this.status === 404) {
                     content.innerHTML = "<p>Mau ke mana bos? Nyasar bos? Halamannya nggak ada nih.</p>";
                 } else {
                     content.innerHTML = "<p>Hayo mau ngapain? Halaman ini tidak dapat diakses ya...</p>";
