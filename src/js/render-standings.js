@@ -1,14 +1,22 @@
-// import 'materialize-css/dist/css/materialize.min.css';
 import MyAPI from "./my-api";
 import renderTeamDetail from "./render-detail-tim";
 
 function renderStandings() {
     const stAPI = new MyAPI();
+    if ("caches" in window) {
+        stAPI.getStandingsFromCache()
+            .then(renderHTML)
+    }
     stAPI.getStandings()
-        .then(standing => {
-            let standingsHTML = "";
-            standing.table.forEach(row => {
-                standingsHTML += `
+        .then(renderHTML)
+        .catch(error => {
+            console.error(error);
+        });
+
+    function renderHTML(standing) {
+        let standingsHTML = "";
+        standing.table.forEach(row => {
+            standingsHTML += `
                     <tr>
                         <td>${row.position}</td>
                         <td>${row.team.name}</td>
@@ -27,21 +35,18 @@ function renderStandings() {
                         </td>
                     </tr>
                     `;
-            });
-            document.getElementById("klasemen").innerHTML = standingsHTML;
-            document.querySelectorAll(".btn").forEach(function (elm) {
-                elm.addEventListener("click", function (event) {
-                    let page = event.target.getAttribute("href").substr(1).split("?")[0];
-                    teamDetailLoadPage(page)
-
-                })
+        });
+        document.getElementById("klasemen").innerHTML = standingsHTML;
+        document.querySelectorAll(".btn").forEach(function (elm) {
+            elm.addEventListener("click", function (event) {
+                let page = event.target.getAttribute("href").substr(1).split("?")[0];
+                teamDetailLoadPage(page)
 
             })
+
         })
-        .catch(error => {
-            console.error(error);
-        });
-    
+    }
+
     function teamDetailLoadPage(page) {
         const xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {

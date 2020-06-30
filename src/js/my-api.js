@@ -29,6 +29,15 @@ class MyAPI{
         return response.json();
     }
 
+    getStandingsFromCache() {
+        const url = `${this.BASE_URL}/competitions/${this.COMP_ID}/standings?standingType=TOTAL`;
+        return Promise.resolve(caches.match(url))
+            .then(this.getJSON)
+            .then(function (data) {
+                return Promise.resolve(data.standings[0])
+            })
+    }
+
     getStandings() {
         const url = `${this.BASE_URL}/competitions/${this.COMP_ID}/standings?standingType=TOTAL`;
         return this.fetchWithAPIKey(url)
@@ -36,6 +45,28 @@ class MyAPI{
             .then(this.getJSON)
             .then(function (data) {
                 return Promise.resolve(data.standings[0])
+            })
+            .catch(error => {
+                return Promise.reject(error);
+            })
+    }
+
+    getMatchListFromCache(teamID){
+        const url = `${this.BASE_URL}/teams/${teamID}/matches?competitions=${this.COMP_ID}`;
+        return Promise.resolve(caches.match(url))
+            .then(this.getJSON)
+            .then(function (data) {
+                return Promise.resolve(data.matches)
+            })
+    }
+
+    getMatchList(teamID){
+        const url = `${this.BASE_URL}/teams/${teamID}/matches?competitions=${this.COMP_ID}`;
+        return this.fetchWithAPIKey(url)
+            .then(this.getStatus)
+            .then(this.getJSON)
+            .then(function (data) {
+                return Promise.resolve(data.matches)
             })
             .catch(error => {
                 return Promise.reject(error);
