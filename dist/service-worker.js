@@ -1,62 +1,42 @@
-const CACHE_NAME = "soondool-v3";
-let urlsToCache = [
-    "/",
-    "/index.html",
-    "/manifest.json",
-    "/service-worker.js",
-    "/scripts/bundle.js",
-    "/pages/detail-tim.html",
-    "/pages/home.html",
-    "/pages/nav.html",
-    "/pages/tim-favorit.html",
-    "/assets/favicon.ico",
-    "/assets/icon.png",
-    "/assets/icon-transparent.png",
-];
+importScripts("precache-manifest.bf428a36e905f498d2176212bc313fcf.js", "https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
-self.addEventListener("install", function (event) {
-    event.waitUntil(
-        caches.open(CACHE_NAME).then(function (cache) {
-            return cache.addAll(urlsToCache);
-        })
-    );
-});
+const SEVEN_DAYS_IN_SECONDS = 604800; // Jumlah detik dalam 7 hari
 
-self.addEventListener("fetch", function (event) {
-    const BASE_URL = `https://api.football-data.org/`;
+workbox.precaching.precacheAndRoute(self.__precacheManifest);
 
-    if (event.request.url.indexOf(BASE_URL) > -1) {
-        event.respondWith(
-            caches.open(CACHE_NAME).then(function (cache) {
-                return fetch(event.request).then(function (response) {
-                    cache.put(event.request.url, response.clone());
-                    return response;
-                })
+workbox.routing.registerRoute(
+    /^https:\/\/api\.football-data\.org/,
+    new workbox.strategies.StaleWhileRevalidate({
+        cacheName :'football-data',
+        plugins: [
+            new workbox.expiration.Plugin({
+                maxEntries: 20,
+                maxAgeSeconds: SEVEN_DAYS_IN_SECONDS
             })
-        );
-    } else {
-        event.respondWith(
-            caches.match(event.request, { ignoreSearch: true }).then(function (response) {
-                return response || fetch(event.request);
-            })
-        )
-    }
-});
+        ]
+    })
+);
 
-self.addEventListener("activate", function (event) {
-    event.waitUntil(
-        caches.keys().then(function (cacheNames){
-            return Promise.all(
-                cacheNames.map(function (cacheName) {
-                    if (cacheName != CACHE_NAME) {
-                        console.log("ServiceWorker: cache " + cacheName + " dihapus.");
-                        return caches.delete(cacheName);
-                    }
-                })
-            )
-        })
-    )
-});
+workbox.routing.registerRoute(
+    new RegExp('/assets/'),
+    new workbox.strategies.CacheFirst({
+        cacheName : 'assets'
+    })
+);
+
+workbox.routing.registerRoute(
+    new RegExp('/pages/'),
+    new workbox.strategies.StaleWhileRevalidate({
+        cacheName: 'pages'
+    })
+);
+
+workbox.routing.registerRoute(
+    new RegExp('/scripts/'),
+    new workbox.strategies.StaleWhileRevalidate({
+        cacheName: 'scripts'
+    })
+);
 
 self.addEventListener("push", function (event) {
     let body;
@@ -78,6 +58,6 @@ self.addEventListener("push", function (event) {
     };
 
     event.waitUntil(
-        self.registration.showNotification('Push Notification', options)
+        self.registration.showNotification('Soondool', options)
     );
 });

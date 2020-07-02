@@ -1,10 +1,12 @@
 class MyAPI{
 
+
     constructor() {
         this.BASE_URL = `https://api.football-data.org/v2`;
         this.API_KEY = `03f6765204664b21aa5309d4f48758cf`;
         this.COMP_ID = `2021`; // ID Kompetisi Premier League
     }
+
 
     fetchWithAPIKey(url){
         return Promise.resolve(
@@ -16,6 +18,7 @@ class MyAPI{
         );
     }
 
+
     getStatus(response) {
         if (response.status !== 200){
             console.error("Error: " + response.status);
@@ -25,18 +28,11 @@ class MyAPI{
         }
     }
 
+
     getJSON(response){
         return response.json();
     }
 
-    getStandingsFromCache() {
-        const url = `${this.BASE_URL}/competitions/${this.COMP_ID}/standings?standingType=TOTAL`;
-        return Promise.resolve(caches.match(url))
-            .then(this.getJSON)
-            .then(function (data) {
-                return Promise.resolve(data.standings[0])
-            })
-    }
 
     getStandings() {
         const url = `${this.BASE_URL}/competitions/${this.COMP_ID}/standings?standingType=TOTAL`;
@@ -51,14 +47,6 @@ class MyAPI{
             })
     }
 
-    getMatchListFromCache(teamID){
-        const url = `${this.BASE_URL}/teams/${teamID}/matches?competitions=${this.COMP_ID}`;
-        return Promise.resolve(caches.match(url))
-            .then(this.getJSON)
-            .then(function (data) {
-                return Promise.resolve(data.matches)
-            })
-    }
 
     getMatchList(teamID){
         const url = `${this.BASE_URL}/teams/${teamID}/matches?competitions=${this.COMP_ID}`;

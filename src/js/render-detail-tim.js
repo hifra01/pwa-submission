@@ -4,12 +4,13 @@ import db from "./db";
 
 function renderTeamDetail(teamID, referrer="home"){
     const tdAPI = new MyAPI();
-    if ("caches" in window) {
-        tdAPI.getStandingsFromCache()
-            .then(renderTeamDetailHTML);
-    }
     tdAPI.getStandings()
-        .then(renderTeamDetailHTML);
+        .then(renderTeamDetailHTML)
+        .catch(error => {
+            M.toast({html: `Tidak dapat terhubung ke jaringan.`});
+            console.error("Error: ", error);
+        })
+
 
     function renderTeamDetailHTML(standing){
         let teamDetailHTML = "";
@@ -49,7 +50,8 @@ function renderTeamDetail(teamID, referrer="home"){
             loadPage(page)
         });
         initFavButton(teamID, teamName);
-    };
+    }
+
 
     function initFavButton(id, name) {
         const favButton =  document.getElementById("favTeam");
@@ -74,15 +76,17 @@ function renderTeamDetail(teamID, referrer="home"){
 
     }
 
+
     // Match history
 
-    if ("caches" in window) {
-        tdAPI.getMatchListFromCache(teamID)
-            .then(renderMatchListHTML);
-    }
+
     tdAPI.getMatchList(teamID)
         .then(renderMatchListHTML)
-    
+        .catch(error => {
+            M.toast({html: `Tidak dapat terhubung ke jaringan.`})
+        })
+
+
     function renderMatchListHTML(matches) {
         let matchListHTML = "";
         let matchTime = "";
@@ -110,4 +114,6 @@ function renderTeamDetail(teamID, referrer="home"){
     }
 
 }
+
+
 export default renderTeamDetail;

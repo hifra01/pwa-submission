@@ -1,19 +1,19 @@
 import MyAPI from "./my-api";
 import renderTeamDetail from "./render-detail-tim";
 
+
 function renderStandings() {
     const stAPI = new MyAPI();
-    if ("caches" in window) {
-        stAPI.getStandingsFromCache()
-            .then(renderHTML)
-    }
     stAPI.getStandings()
         .then(renderHTML)
         .catch(error => {
-            console.error(error);
+            M.toast({html: `Tidak dapat terhubung ke jaringan.`});
+            console.error("Error: ", error);
         });
 
+
     function renderHTML(standing) {
+
         let standingsHTML = "";
         standing.table.forEach(row => {
             standingsHTML += `
@@ -36,6 +36,7 @@ function renderStandings() {
                     </tr>
                     `;
         });
+
         document.getElementById("klasemen").innerHTML = standingsHTML;
         document.querySelectorAll(".btn").forEach(function (elm) {
             elm.addEventListener("click", function (event) {
@@ -47,7 +48,9 @@ function renderStandings() {
         })
     }
 
+
     function teamDetailLoadPage(page) {
+
         const xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState === 4) {
@@ -70,5 +73,6 @@ function renderStandings() {
         xhttp.send();
     }
 }
+
 
 export default renderStandings;

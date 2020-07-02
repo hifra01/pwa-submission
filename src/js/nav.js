@@ -1,9 +1,11 @@
 import loadPage from "./load-page";
 
+
 function initNav(){
     let elems = document.querySelectorAll(".sidenav");
     M.Sidenav.init(elems);
     loadNav();
+
 
     function loadNav() {
         const xhttp = new XMLHttpRequest();
@@ -35,5 +37,6 @@ function initNav(){
     loadPage(page);
 
 }
+
 
 export default initNav;
