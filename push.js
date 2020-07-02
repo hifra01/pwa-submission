@@ -1,3 +1,4 @@
+
 const webPush = require('web-push');
 
 const vapidKeys = {
@@ -12,10 +13,10 @@ webPush.setVapidDetails(
 )
 
 const pushSubscription = {
-    "endpoint": "https://fcm.googleapis.com/fcm/send/dAIKOFExs9o:APA91bFoc6851KvenjRq0N0JNVb1ynxH-4jeF2K-eLET5J3kMuaammGGLlw5blnIlBgQWOvSSfGLQp5YmCk53bgA-SUA-ezF3-ZDi73Rct6LgJcJyLL2ZEXgLGIDP8jqUOfT_36m4Vil",
+    "endpoint": "https://fcm.googleapis.com/fcm/send/cizw4yymUeg:APA91bHZUkcHlHskPe0w-CXeXXCMxD0bwf59k8eb40zH4_GPgrePikWyB9Qd9o2EcBmOv3_LcJ7ecbGMrWpX1TZP6zBwxY0rb0yr4X2YToXlPTN8_jdrUpYgsX-Xy_qzi0IM8FWUlDCg",
     "keys": {
-        "p256dh": "BLZtX4yQZf92iHwilgWkpKBGOmpYUugMuAB79lB0VcDnmbNRt2d1Ut9S45BtPwfGC2V5L3hd42gal7kXXYUIpV4=",
-        "auth": "080GiKF+uxlbZziZ/MTF6Q=="
+        "p256dh": "BLqMbeInULoygxHwhrbW+7KXzfDYt7QajD7DpHbgMR2k7yesyz7trlzMrDHjlS2Yb4Xn1Yz/NJnZhW6F7zC2VH0=",
+        "auth": "FAt7el9L8bm/XfS9wpny1Q=="
     }
 };
 
