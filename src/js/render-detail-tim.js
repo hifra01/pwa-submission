@@ -59,12 +59,14 @@ function renderTeamDetail(teamID, referrer="home"){
                     favButton.innerHTML = `<a class="btn btn-large btn-block green white-text waves-effect waves-block waves-light">Tambahkan ke Favorit</a>`;
                     document.querySelector("#favTeam a").addEventListener("click", function (event) {
                         db.saveFavoriteTeam(id, name);
+                        M.toast({html: `Berhasil menambahkan ${name} ke Tim Favorit`})
                         initFavButton(id, name);
                     })
                 } else {
                     favButton.innerHTML = `<a class="btn btn-large btn-block red white-text waves-effect waves-block waves-light">Hapus dari Favorit</a>`;
                     document.querySelector("#favTeam a").addEventListener("click", function (event) {
                         db.deleteFavoriteTeam(id);
+                        M.toast({html: `Berhasil menghapus ${name} dari Tim Favorit`})
                         initFavButton(id, name);
                     })
                 }

@@ -1,5 +1,5 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-// const ServiceWorkerWebpackPlugin = require("serviceworker-webpack-plugin")
+const CopyPlugin = require('copy-webpack-plugin');
 const path = require("path");
 
  
@@ -28,6 +28,26 @@ module.exports = {
        new HtmlWebpackPlugin({
            template: "./src/index.html",
            filename: "index.html"
+       }),
+       new CopyPlugin({
+           patterns: [
+               {
+                   from: 'src/assets/',
+                   to: './assets/'
+               },
+               {
+                   from: 'src/pages/',
+                   to: './pages/'
+               },
+               {
+                   from: 'src/service-worker.js',
+                   to: './'
+               },
+               {
+                   from: 'src/manifest.json',
+                   to: './'
+               }
+           ]
        })
    ]
 }

@@ -21,6 +21,10 @@ function renderFavoriteTeam() {
                     teamDetailLoadPage(page);
                 })
             })
+        })
+        .catch(error => {
+            let favoritesHTML = `<p>Kosong nih.</p>`;
+            document.getElementById("favoriteTeam").innerHTML = favoritesHTML;
         });
 
     function teamDetailLoadPage(page) {
