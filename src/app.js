@@ -9,8 +9,8 @@ document.addEventListener("DOMContentLoaded", initNav);
 // Register Service Worker
 if ("serviceWorker" in navigator) {
     window.addEventListener("load", function() {
-        registerServiceWorker();
-        requestNotificationPermission();
+        registerServiceWorker()
+            .then(response =>{requestNotificationPermission();})
     });
 } else {
     console.log("ServiceWorker belum didukung browser ini.");

@@ -1,27 +1,35 @@
 import db from "./db";
 import renderTeamDetail from "./render-detail-tim";
 
+
 function renderFavoriteTeam() {
     db.getFavoriteTeams()
         .then(data => {
-            let favoritesHTML = "";
-            data.forEach(team => {
-                favoritesHTML += `
+            if (data.length > 0) {
+                let favoritesHTML = "";
+                data.forEach(team => {
+                    favoritesHTML += `
                 <div class="row">
                     <div class="col s12 card-content">
                         <a href="#detail-tim?teamID=${team.id}" class="btn btn-large btn-block indigo hoverable">${team.name}</a>
                     </div>
                 </div>
                 `;
-            })
-            document.getElementById("favoriteTeam").innerHTML = favoritesHTML;
-            document.querySelectorAll(".btn").forEach(function (elm) {
-                elm.addEventListener("click", function (event) {
-                    let page = event.target.getAttribute("href").substr(1).split("?")[0];
-                    teamDetailLoadPage(page);
                 })
-            })
-        });
+                document.getElementById("favoriteTeam").innerHTML = favoritesHTML;
+                document.querySelectorAll(".btn").forEach(function (elm) {
+                    elm.addEventListener("click", function (event) {
+                        let page = event.target.getAttribute("href").substr(1).split("?")[0];
+                        teamDetailLoadPage(page);
+                    })
+                })
+            } else {
+                let noFavoritesHTML = `<p>Kamu belum menambahkan apapun sebagai Tim Favoritmu. &#128543;</p>`;
+                document.getElementById("favoriteTeam").innerHTML = noFavoritesHTML;
+            }
+
+        })
+
 
     function teamDetailLoadPage(page) {
         const xhttp = new XMLHttpRequest();
@@ -46,5 +54,6 @@ function renderFavoriteTeam() {
         xhttp.send();
     }
 }
+
 
 export default renderFavoriteTeam;

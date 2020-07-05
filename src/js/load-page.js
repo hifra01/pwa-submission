@@ -2,9 +2,11 @@ import renderStandings from "./render-standings";
 import renderTeamDetail from "./render-detail-tim";
 import renderFavoriteTeam from "./render-tim-favorit";
 
+
 function loadPage(page) {
     const xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
+
         if (this.readyState === 4) {
             const content = document.querySelector("#body-content");
 
@@ -29,5 +31,6 @@ function loadPage(page) {
     xhttp.open("GET", "pages/" + page + ".html",true);
     xhttp.send();
 }
+
 
 export default loadPage;

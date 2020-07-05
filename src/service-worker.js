@@ -1,5 +1,3 @@
-importScripts("precache-manifest.bf428a36e905f498d2176212bc313fcf.js", "https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
-
 const SEVEN_DAYS_IN_SECONDS = 604800; // Jumlah detik dalam 7 hari
 
 workbox.precaching.precacheAndRoute(self.__precacheManifest);
